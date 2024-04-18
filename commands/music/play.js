@@ -5,7 +5,7 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('play')
-		.setDescription('PLay a song')
+		.setDescription('Play a song')
 		.addStringOption((option) =>
 			option
 				.setName('query')
