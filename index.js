@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
+const { Player } = require('discord-player');
 
 // Create a new client instance
 const client = new Client({
@@ -11,6 +12,12 @@ const client = new Client({
 		GatewayIntentBits.GuildVoiceStates,
 	],
 });
+
+// Discord player entrypoint
+const player = new Player(client, {
+	skipFFmpeg: false,
+});
+player.extractors.loadDefault();
 
 player.events.on('playerStart', (queue, track) => {
 	queue.metadata.channel.send(`Started playing **${track.title}**!`);
@@ -60,3 +67,13 @@ for (const file of eventFiles) {
 
 // Log in to Discord with your client's token
 client.login(token);
+
+// prevent crash on unhandled promise rejection
+process.on('unhandledRejection', (reason) => {
+	console.error('Unhandled promise rejection:', reason);
+});
+
+// prevent crash on uncaught exception
+process.on('uncaughtException', (error) => {
+	console.error('Uncaught exception:', error);
+});
