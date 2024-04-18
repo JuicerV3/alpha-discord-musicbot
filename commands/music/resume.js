@@ -14,7 +14,7 @@ module.exports = {
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setTitle('No song currently playing.')
-				.setDescription('No song is currently playing')
+				.setDescription("Bot isn't playing anysong")
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -25,8 +25,8 @@ module.exports = {
 		// if song is resumed/playing
 		if (!timeline.paused) {
 			const embed = new EmbedBuilder()
-				.setTitle('Error')
-				.setDescription('The track is already resumed')
+				.setTitle('Song is already playing')
+				.setDescription('The song is already resumed')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -38,7 +38,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setTitle('Resumed')
-			.setDescription('The track is already Resumed')
+			.setDescription('Resumed the song')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

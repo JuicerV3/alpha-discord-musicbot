@@ -14,7 +14,7 @@ module.exports = {
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setTitle('No song currently playing')
-				.setDescription('No song is currently playing by me')
+				.setDescription("Bot isn't playing anysong")
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),

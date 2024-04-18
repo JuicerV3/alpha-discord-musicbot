@@ -1,5 +1,5 @@
-const { useMainPlayer } = require('discord-player');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { useMainPlayer } = require('discord-player');
 
 module.exports = {
 	category: 'music',
