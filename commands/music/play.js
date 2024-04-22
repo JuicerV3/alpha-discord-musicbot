@@ -38,7 +38,7 @@ module.exports = {
 			const { track, searchResult } = await player.play(channel, result, {
 				nodeOptions: {
 					metadata: interaction,
-					volume: 10,
+					volume: 100,
 					noEmitInsert: true,
 					leaveOnStop: false,
 					leaveOnEmpty: true,
