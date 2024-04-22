@@ -9,6 +9,8 @@ const path = require('node:path');
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 
+console.log('\u001b[1;32mStarting bot...');
+
 // Create a new client instance
 const client = new Client({
 	intents: [
@@ -27,12 +29,8 @@ const player = new Player(client, {
 		highWaterMark: 1 << 27,
 	},
 });
+exports.player = player;
 player.extractors.loadDefault();
-
-// player events
-player.events.on('playerStart', (queue, track) => {
-	queue.metadata.channel.send(`Started playing **${track.title}**!`);
-});
 
 // Slash command handler part
 client.commands = new Collection();
@@ -59,6 +57,7 @@ for (const folder of commandFolders) {
 		}
 	}
 }
+console.log('\u001b[1;34m => Commands loading finished.');
 
 // read event files in ./events
 const eventsPath = path.join(__dirname, 'events');
@@ -75,6 +74,7 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+console.log('\u001b[1;34m => Events loading finished.');
 
 // Log in to Discord with your client's token
 client.login(token);
