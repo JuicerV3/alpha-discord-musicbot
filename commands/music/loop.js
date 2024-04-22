@@ -62,7 +62,9 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setTitle('Loop mode changed')
-			.setDescription(`I have successfuly changed loop mode to ` + modeName + '.')
+			.setDescription(
+				`I have successfuly changed loop mode to \`${modeName}\`.`
+			)
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { useQueue } = require('discord-player');
+const { useQueue, QueueRepeatMode } = require('discord-player');
 
 module.exports = {
 	category: 'music',
@@ -21,6 +21,7 @@ module.exports = {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
+		queue.setRepeatMode(QueueRepeatMode.OFF);
 		queue.node.stop();
 
 		const embed = new EmbedBuilder()

@@ -38,9 +38,25 @@ module.exports = {
 			const { track, searchResult } = await player.play(channel, result, {
 				nodeOptions: {
 					metadata: interaction,
+					volume: 10,
+					noEmitInsert: true,
+					leaveOnStop: false,
+					leaveOnEmpty: true,
+					leaveOnEmptyCooldown: 60000,
+					leaveOnEnd: true,
+					leaveOnEndCooldown: 60000,
+					pauseOnEmpty: true,
+					preferBridgedMetadata: true,
+					disableBiquad: true,
 				},
 				requestedBy: interaction.user,
+				connectionOptions: {
+					deaf: true,
+				},
 			});
+
+			const sourceName =
+				track.source.charAt(0).toUpperCase() + track.source.slice(1);
 
 			const embed = new EmbedBuilder()
 				.setTitle(
@@ -49,7 +65,9 @@ module.exports = {
 					} queued!`
 				)
 				.setThumbnail(track.thumbnail)
-				.setDescription(`[${track.title}](${track.url})`)
+				.setDescription(
+					`[${track.title}](${track.url}) - ${sourceName}`
+				)
 				.setFields(
 					searchResult.playlist
 						? [
