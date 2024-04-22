@@ -5,7 +5,8 @@ module.exports = {
 	once: true,
 	execute(client) {
 		console.log(
-			`Connection established. Ready! Logged in as ${client.user.tag}`
+			`\u001b[1;32mConnection established. Ready! Logged in as ${client.user.tag}` +
+				'\u001b[0m'
 		);
 	},
 };
