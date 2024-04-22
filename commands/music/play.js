@@ -19,6 +19,13 @@ module.exports = {
 			return interaction.reply('You are not in a voice channel.');
 		const query = interaction.options.getString('query');
 
+		// check for spotify podcast because discord-player throw error
+		if (query.includes('open.spotify.com/episode')) {
+			return interaction.reply(
+				'Spotify podcast not supported at the moment.'
+			);
+		}
+
 		await interaction.deferReply();
 
 		const result = await player.search(query, {
