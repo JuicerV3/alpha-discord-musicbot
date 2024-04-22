@@ -12,6 +12,7 @@ module.exports = {
 
 		if (!queue) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -24,6 +25,7 @@ module.exports = {
 		queue.delete();
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Disconnected')
 			.setDescription('Disconnected from the voice channel')
 			.setAuthor({

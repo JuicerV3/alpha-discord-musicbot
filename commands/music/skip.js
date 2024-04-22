@@ -12,6 +12,7 @@ module.exports = {
 
 		if (!queue.isPlaying()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -44,6 +45,7 @@ module.exports = {
 		}
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Track skipped')
 			.setDescription('I have successfuly skipped the track.')
 			.setAuthor({

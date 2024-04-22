@@ -27,6 +27,7 @@ module.exports = {
 
 		if (!result.hasTracks()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('No results found.')
 				.setDescription(`No results found for \`${query}\``)
 				.setAuthor(interaction.user);
@@ -59,6 +60,7 @@ module.exports = {
 				track.source.charAt(0).toUpperCase() + track.source.slice(1);
 
 			const embed = new EmbedBuilder()
+				.setColor(0x96ffff)
 				.setTitle(
 					`${
 						searchResult.hasPlaylist() ? 'Playlist' : 'Track'
@@ -88,12 +90,12 @@ module.exports = {
 			console.error(e);
 
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Something went wrong.')
 				.setDescription(
 					`Something went wrong while playing \`${query}\``
 				)
 				.setAuthor(interaction.user);
-
 			return interaction.editReply({ embeds: [embed] });
 		}
 	},

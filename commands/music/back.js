@@ -12,6 +12,7 @@ module.exports = {
 
 		if (!history) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -23,6 +24,7 @@ module.exports = {
 
 		if (history.isEmpty()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('No previous track')
 				.setDescription('There is no previous track to go back to')
 				.setAuthor({
@@ -35,6 +37,7 @@ module.exports = {
 		await history.back();
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Track skipped')
 			.setDescription('I have successfuly skipped the track.')
 			.setAuthor({

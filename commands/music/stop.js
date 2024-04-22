@@ -12,6 +12,7 @@ module.exports = {
 
 		if (!queue.isPlaying()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -25,6 +26,7 @@ module.exports = {
 		queue.node.stop();
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Player stopped')
 			.setDescription('I have successfuly stop the player.')
 			.setAuthor({

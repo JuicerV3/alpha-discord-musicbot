@@ -13,6 +13,7 @@ module.exports = {
 		// Check if song is currently playing
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('No song currently playing')
 				.setDescription("Bot isn't playing anysong")
 				.setAuthor({
@@ -25,6 +26,7 @@ module.exports = {
 		// if song is resumed/playing
 		if (timeline.paused) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Error')
 				.setDescription('The track is already paused')
 				.setAuthor({
@@ -37,6 +39,7 @@ module.exports = {
 		timeline.pause();
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Paused')
 			.setDescription('The track is already paused')
 			.setAuthor({

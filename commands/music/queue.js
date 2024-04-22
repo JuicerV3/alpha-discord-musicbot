@@ -12,6 +12,7 @@ module.exports = {
 
 		if (!queue.isPlaying()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -42,6 +43,7 @@ module.exports = {
 			: 'OFF';
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle(`Now Playing : ${queue.currentTrack.title}\n\n`)
 			.setDescription(trackQueue)
 			.setFooter({ text: loopStatus })

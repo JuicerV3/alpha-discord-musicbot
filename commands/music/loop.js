@@ -24,6 +24,7 @@ module.exports = {
 
 		if (!queue.isPlaying()) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -61,6 +62,7 @@ module.exports = {
 		}
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Loop mode changed')
 			.setDescription(
 				`I have successfuly changed loop mode to \`${modeName}\`.`

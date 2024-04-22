@@ -13,6 +13,7 @@ module.exports = {
 
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
 				.setTitle('Not playing')
 				.setDescription('im not playing anything right now')
 				.setAuthor({
@@ -25,6 +26,7 @@ module.exports = {
 		const { track, timestamp } = timeline;
 
 		const embed = new EmbedBuilder()
+			.setColor(0x96ffff)
 			.setTitle('Now playing')
 			.setDescription(`[${track.title}](${track.url})`)
 			.setFields({ name: 'Progress', value: node.createProgressBar() })
