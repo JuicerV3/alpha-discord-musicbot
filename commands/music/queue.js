@@ -9,7 +9,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
-		console.log(queue);
 
 		if (!queue.isPlaying()) {
 			const embed = new EmbedBuilder()
@@ -35,13 +34,13 @@ module.exports = {
 		} else {
 			trackQueue = tracks.join('\n');
 		}
+
 		const loopStatus = queue.repeatMode
 			? queue.repeatMode === 2
 				? 'ALL'
 				: 'One'
 			: 'OFF';
 
-		console.log(trackQueue);
 		const embed = new EmbedBuilder()
 			.setTitle(`Now Playing : ${queue.currentTrack.title}\n\n`)
 			.setDescription(trackQueue)
