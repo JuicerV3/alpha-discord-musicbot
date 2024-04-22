@@ -11,6 +11,7 @@
 	"description": "",
 	"dependencies": {
 		"@discord-player/extractor": "^4.4.7",
+		"@discordjs/voice": "^0.16.1",
 		"discord-player": "^6.6.8",
 		"discord.js": "^14.14.1",
 		"ffmpeg-static": "^5.2.0",
