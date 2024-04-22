@@ -22,7 +22,7 @@ module.exports = {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
 
-		if (!queue.isPlaying()) {
+		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
 				.setTitle('Not playing')
