@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { useQueue } = require('discord-player');
+const { useQueue, QueueRepeatMode } = require('discord-player');
 
 module.exports = {
 	category: 'music',
@@ -21,7 +21,27 @@ module.exports = {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
+		const currentRepeatMode = queue.repeatMode;
+
+		queue.setRepeatMode(QueueRepeatMode.OFF);
 		queue.node.skip();
+		await wait(500);
+		switch (currentRepeatMode) {
+			case 0:
+				queue.setRepeatMode(QueueRepeatMode.OFF);
+				break;
+			case 1:
+				queue.setRepeatMode(QueueRepeatMode.TRACK);
+				break;
+			case 2:
+				queue.setRepeatMode(QueueRepeatMode.QUEUE);
+				break;
+			case 3:
+				queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
+				break;
+			default:
+				queue.setRepeatMode(QueueRepeatMode.OFF);
+		}
 
 		const embed = new EmbedBuilder()
 			.setTitle('Track skipped')
@@ -32,4 +52,8 @@ module.exports = {
 			});
 		return interaction.editReply({ embeds: [embed] });
 	},
+};
+
+const wait = (ms) => {
+	return new Promise((resolve) => setTimeout(() => resolve(), ms));
 };
