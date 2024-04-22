@@ -15,18 +15,25 @@ module.exports = {
 	async execute(interaction) {
 		const player = useMainPlayer();
 		const channel = interaction.member.voice.channel;
-		if (!channel)
-			return interaction.reply('You are not in a voice channel.');
 		const query = interaction.options.getString('query');
+		await interaction.deferReply();
+
+		if (!channel) {
+			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
+				.setTitle('Cannot join a voice channel')
+				.setDescription('You are not in a voice channel.');
+			return interaction.editReply({ embeds: [embed] });
+		}
 
 		// except for spotify podcast because discord-player throw error
 		if (query.includes('open.spotify.com/episode')) {
-			return interaction.reply(
-				'Spotify podcast not supported at the moment.'
-			);
+			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
+				.setTitle('Cannot play Spotify podcast')
+				.setDescription('Spotify podcast not supported.');
+			return interaction.editReply({ embeds: [embed] });
 		}
-
-		await interaction.deferReply();
 
 		const result = await player.search(query, {
 			requestedBy: interaction.user,
@@ -35,10 +42,8 @@ module.exports = {
 		if (!result.hasTracks()) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No results found.')
-				.setDescription(`No results found for \`${query}\``)
-				.setAuthor(interaction.user);
-
+				.setTitle('No search results found.')
+				.setDescription(`No search results found for \`${query}\``);
 			return interaction.editReply({ embeds: [embed] });
 		}
 
@@ -50,9 +55,9 @@ module.exports = {
 					noEmitInsert: true,
 					leaveOnStop: false,
 					leaveOnEmpty: true,
-					leaveOnEmptyCooldown: 60000,
+					leaveOnEmptyCooldown: 600000,
 					leaveOnEnd: true,
-					leaveOnEndCooldown: 60000,
+					leaveOnEndCooldown: 600000,
 					pauseOnEmpty: true,
 					preferBridgedMetadata: true,
 					disableBiquad: true,
@@ -65,17 +70,28 @@ module.exports = {
 
 			const sourceName =
 				track.source.charAt(0).toUpperCase() + track.source.slice(1);
+			let sourceIconURL;
+
+			if (track.source === 'spotify') {
+				sourceIconURL =
+					'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
+			} else if (track.source === 'youtube') {
+				sourceIconURL =
+					'https://cdn.discordapp.com/attachments/985226448686174228/1231977563233189921/youtube-logo.png';
+			} else {
+				sourceIconURL = interaction.client.user.displayAvatarURL();
+			}
 
 			const embed = new EmbedBuilder()
 				.setColor(0x96ffff)
 				.setTitle(
 					`${
 						searchResult.hasPlaylist() ? 'Playlist' : 'Track'
-					} queued!`
+					} queued`
 				)
 				.setThumbnail(track.thumbnail)
 				.setDescription(
-					`[${track.title}](${track.url}) - ${sourceName}`
+					`${track.author} - [${track.title}](${track.url})`
 				)
 				.setFields(
 					searchResult.playlist
@@ -88,21 +104,23 @@ module.exports = {
 						: []
 				)
 				.setAuthor({
-					name: interaction.user.username,
+					name: `Requested by ${interaction.user.username}`,
 					iconURL: interaction.user.avatarURL(),
+				})
+				.setFooter({
+					text: `Powered by ${sourceName}`,
+					iconURL: sourceIconURL,
 				});
-
 			return interaction.editReply({ embeds: [embed] });
 		} catch (e) {
 			console.error(e);
 
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Something went wrong.')
+				.setTitle('Something went wrong')
 				.setDescription(
-					`Something went wrong while playing \`${query}\``
-				)
-				.setAuthor(interaction.user);
+					`Something went wrong while trying to play \`${query}\``
+				);
 			return interaction.editReply({ embeds: [embed] });
 		}
 	},
