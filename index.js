@@ -1,9 +1,4 @@
-const {
-	Client,
-	Collection,
-	GatewayIntentBits,
-	EmbedBuilder,
-} = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const { token } = require('./config.json');
