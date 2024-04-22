@@ -1,6 +1,11 @@
+const {
+	Client,
+	Collection,
+	GatewayIntentBits,
+	EmbedBuilder,
+} = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 
@@ -16,9 +21,15 @@ const client = new Client({
 // Discord player entrypoint
 const player = new Player(client, {
 	skipFFmpeg: false,
+	ytdlOptions: {
+		filter: 'audioonly',
+		quality: 'highestaudio',
+		highWaterMark: 1 << 27,
+	},
 });
 player.extractors.loadDefault();
 
+// player events
 player.events.on('playerStart', (queue, track) => {
 	queue.metadata.channel.send(`Started playing **${track.title}**!`);
 });
