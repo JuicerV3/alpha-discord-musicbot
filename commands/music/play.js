@@ -77,40 +77,59 @@ module.exports = {
 					'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
 			} else if (track.source === 'youtube') {
 				sourceIconURL =
-					'https://cdn.discordapp.com/attachments/985226448686174228/1231977563233189921/youtube-logo.png';
+					'https://cdn.discordapp.com/attachments/985226448686174228/1231996659597312031/youtube-logo.png';
 			} else {
 				sourceIconURL = interaction.client.user.displayAvatarURL();
 			}
 
+			console.log(
+				`\u001b[1;34m[Player]: Added ${track.title} - [${sourceName}]\u001b[0m`
+			);
+
 			const embed = new EmbedBuilder()
 				.setColor(0x96ffff)
-				.setTitle(
-					`${
-						searchResult.hasPlaylist() ? 'Playlist' : 'Track'
-					} queued`
-				)
-				.setThumbnail(track.thumbnail)
-				.setDescription(
-					`${track.author} - [${track.title}](${track.url})`
-				)
-				.setFields(
-					searchResult.playlist
-						? [
-								{
-									name: 'Playlist',
-									value: searchResult.playlist.title,
-								},
-						  ]
-						: []
-				)
 				.setAuthor({
-					name: `Requested by ${interaction.user.username}`,
-					iconURL: interaction.user.avatarURL(),
-				})
-				.setFooter({
-					text: `Powered by ${sourceName}`,
+					name: `${
+						searchResult.hasPlaylist() ? 'Playlist' : 'Track'
+					} queued`,
 					iconURL: sourceIconURL,
+				})
+				.setTitle(track.title)
+				.setURL(track.url)
+				.setThumbnail(track.thumbnail)
+				.setDescription(`**${track.author}**`)
+				.setFields(
+					{
+						name: 'Track length',
+						value: track.duration,
+						inline: true,
+					},
+					{
+						name: 'Source',
+						value: `${sourceName}`,
+						inline: true,
+					}
+				)
+				.setFooter({
+					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3
+					`,
+					iconURL: interaction.user.avatarURL(),
 				});
+			if (searchResult.playlist != undefined) {
+				embed.addFields({
+					name: 'Playlist',
+					value: searchResult.playlist.title,
+					inline: true,
+				});
+			}
+			if (track.source === 'youtube') {
+				embed.addFields({
+					name: 'Youtube Views',
+					value: `${track.views
+						.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
+				});
+			}
 			return interaction.editReply({ embeds: [embed] });
 		} catch (e) {
 			console.error(e);
