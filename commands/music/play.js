@@ -111,8 +111,7 @@ module.exports = {
 					}
 				)
 				.setFooter({
-					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3
-					`,
+					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3`,
 					iconURL: interaction.user.avatarURL(),
 				});
 			if (searchResult.playlist != undefined) {
