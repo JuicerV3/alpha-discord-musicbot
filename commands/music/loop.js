@@ -35,41 +35,41 @@ module.exports = {
 		}
 
 		const mode = interaction.options.getString('mode');
-		let modeName;
 
+		let loopStatus;
 		if (!mode != null) {
 			switch (mode) {
 				case 'autoplay':
 					queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
-					modeName = 'Autoplay Next Track';
+					loopStatus = 'Autoplay Next Track';
 					break;
 				case 'track':
 					queue.setRepeatMode(QueueRepeatMode.TRACK);
-					modeName = 'Repeat Current Track';
+					loopStatus = 'Repeat Current Track';
 					break;
 				case 'queue':
 					queue.setRepeatMode(QueueRepeatMode.QUEUE);
-					modeName = 'Repeat Queue';
+					loopStatus = 'Repeat Queue';
 					break;
 				case 'off':
 					queue.setRepeatMode(QueueRepeatMode.OFF);
-					modeName = 'Repeat Off';
+					loopStatus = 'Repeat Off';
 					break;
 				default:
 					queue.setRepeatMode(QueueRepeatMode.OFF);
-					modeName = 'Repeat Off';
+					loopStatus = 'Repeat Off';
 			}
 		}
 
 		console.log(
-			`\u001b[1;34m[Player]: Changed loop mode to ${modeName}\u001b[0m`
+			`\u001b[1;34m[Player]: Changed loop mode to ${loopStatus}\u001b[0m`
 		);
 
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Loop mode changed')
 			.setDescription(
-				`I have successfuly changed loop mode to \`${modeName}\`.`
+				`I have successfuly changed loop mode to \`${loopStatus}\`.`
 			)
 			.setAuthor({
 				name: interaction.user.username,
