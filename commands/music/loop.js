@@ -61,6 +61,10 @@ module.exports = {
 			}
 		}
 
+		console.log(
+			`\u001b[1;34m[Player]: Changed loop mode to ${modeName}\u001b[0m`
+		);
+
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Loop mode changed')
