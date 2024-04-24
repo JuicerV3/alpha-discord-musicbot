@@ -83,7 +83,7 @@ module.exports = {
 			}
 
 			console.log(
-				`\u001b[1;34m[Player]: Added ${track.title} - [${sourceName}]\u001b[0m`
+				`\u001b[1;34m[Player]: Added ${track.title} - (${sourceName})\n   └─[Query]: ${query}\u001b[0m`
 			);
 
 			const embed = new EmbedBuilder()
