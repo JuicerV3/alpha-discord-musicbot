@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { player } = require('..');
 
 // player events
-player.events.on('playerStart', (queue, track) => {
+player.events.on('playerStart', async (queue, track) => {
 	let loopStatus;
 	switch (queue.repeatMode) {
 		case 0:
@@ -54,8 +54,9 @@ player.events.on('playerStart', (queue, track) => {
 			text: `Requested by ${track.requestedBy.username} • αlpha@_juicerv3`,
 			iconURL: track.requestedBy.avatarURL(),
 		});
-	queue.metadata.channel.send({ embeds: [embed] });
+	const msg = await queue.metadata.channel.send({ embeds: [embed] });
+	setTimeout(() => msg.delete(), track.durationMS);
 	console.log(
-		`\u001b[1;34m[Player]: Started playing ${track.title} - [${track.source}]\u001b[0m`
+		`\u001b[1;34m[Player]: Started playing ${track.title} - (${track.source})\u001b[0m`
 	);
 });
