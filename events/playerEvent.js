@@ -61,6 +61,18 @@ player.events.on('playerStart', async (queue, track) => {
 	);
 });
 
+player.events.on('disconnect', (queue) => {
+	const embed = new EmbedBuilder()
+		.setColor(0x96ffff)
+		.setAuthor({
+			name: queue.player.client.user.username,
+			iconURL: queue.player.client.user.avatarURL(),
+		})
+		.setTitle('Disconnected')
+		.setDescription('Disconnected from voice channel.');
+	queue.metadata.channel.send({ embeds: [embed] });
+});
+
 player.events.on('playerError', (queue, error) => {
 	console.log(
 		`\u001b[1;31m[Player ERROR] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}\u001b[0m`
