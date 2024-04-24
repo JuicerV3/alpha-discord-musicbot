@@ -60,3 +60,19 @@ player.events.on('playerStart', async (queue, track) => {
 		`\u001b[1;34m[Player]: Started playing ${track.title} - (${track.source})\u001b[0m`
 	);
 });
+
+player.events.on('playerError', (queue, error) => {
+	console.log(
+		`\u001b[1;31m[Player ERROR] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}\u001b[0m`
+	);
+	queue.metadata.channel.send({
+		content:
+			'An error occurred while trying to extract the following song.',
+	});
+});
+
+player.events.on('error', (queue, error) => {
+	console.log(
+		`\u001b[1;31m[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the queue: ${error.message}`
+	);
+});
