@@ -25,8 +25,10 @@ module.exports = {
 
 		const tracks = queue.tracks.map(
 			(track, index) =>
-				`${++index}. ${track.title}\n └─${
+				`${++index}. [${track.title}](${track.url})\n └─${
 					track.requestedBy.username
+				} • ${
+					track.source.charAt(0).toUpperCase() + track.source.slice(1)
 				} • ${track.duration}`
 		);
 
@@ -43,19 +45,19 @@ module.exports = {
 		let loopStatus;
 		switch (queue.repeatMode) {
 			case 0:
-				loopStatus = 'Repeat Off';
+				loopStatus = 'Off';
 				break;
 			case 1:
-				loopStatus = 'Repeat Current Track';
+				loopStatus = 'Loop Current Track';
 				break;
 			case 2:
-				loopStatus = 'Repeat Queue';
+				loopStatus = 'Loop Queue';
 				break;
 			case 3:
 				loopStatus = 'Autoplay Next Track';
 				break;
 			default:
-				loopStatus = 'Repeat Off';
+				loopStatus = 'Off';
 		}
 
 		const embed = new EmbedBuilder()
@@ -67,7 +69,15 @@ module.exports = {
 			.setTitle(`Current Queue`)
 			.setThumbnail(queue.currentTrack.thumbnail)
 			.setDescription(
-				`**Now playing: ${queue.currentTrack.title}**\nRequested by ${queue.currentTrack.requestedBy.username}`
+				`**Now playing: [${queue.currentTrack.title}](${
+					queue.currentTrack.url
+				})**\nRequested by ${
+					queue.currentTrack.requestedBy.username
+				} • ${
+					queue.currentTrack.source.charAt(0).toUpperCase() +
+					queue.currentTrack.source.slice(1)
+				} • ${queue.currentTrack.duration}
+				`
 			)
 			.setFields({ name: 'Tracklist', value: trackQueue })
 			.setFooter({
