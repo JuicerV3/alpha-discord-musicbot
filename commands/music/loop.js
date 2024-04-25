@@ -13,9 +13,9 @@ module.exports = {
 				.setRequired(true)
 				.addChoices(
 					{ name: 'Autoplay Next Track', value: 'autoplay' },
-					{ name: 'Repeat Current Track', value: 'track' },
-					{ name: 'Repeat Queue', value: 'queue' },
-					{ name: 'Repeat Off', value: 'off' }
+					{ name: 'Current Track', value: 'track' },
+					{ name: 'Queue', value: 'queue' },
+					{ name: 'Off', value: 'off' }
 				)
 		),
 	async execute(interaction) {
@@ -46,19 +46,19 @@ module.exports = {
 					break;
 				case 'track':
 					queue.setRepeatMode(QueueRepeatMode.TRACK);
-					loopStatus = 'Repeat Current Track';
+					loopStatus = 'Current Track';
 					break;
 				case 'queue':
 					queue.setRepeatMode(QueueRepeatMode.QUEUE);
-					loopStatus = 'Repeat Queue';
+					loopStatus = 'Queue';
 					break;
 				case 'off':
 					queue.setRepeatMode(QueueRepeatMode.OFF);
-					loopStatus = 'Repeat Off';
+					loopStatus = 'Off';
 					break;
 				default:
 					queue.setRepeatMode(QueueRepeatMode.OFF);
-					loopStatus = 'Repeat Off';
+					loopStatus = 'Off';
 			}
 		}
 
