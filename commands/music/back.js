@@ -19,7 +19,8 @@ module.exports = {
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
 				});
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		if (history.isEmpty()) {
@@ -31,7 +32,8 @@ module.exports = {
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
 				});
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		await history.back();
@@ -44,6 +46,7 @@ module.exports = {
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),
 			});
-		return interaction.editReply({ embeds: [embed] });
+		const msg = await interaction.editReply({ embeds: [embed] });
+		return setTimeout(() => msg.delete(), 15000);
 	},
 };

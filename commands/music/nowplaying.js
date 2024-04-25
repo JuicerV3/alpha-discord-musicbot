@@ -20,7 +20,8 @@ module.exports = {
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
 				});
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		const { track, timestamp } = timeline;
@@ -39,6 +40,7 @@ module.exports = {
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),
 			});
-		return interaction.editReply({ embeds: [embed] });
+		const msg = await interaction.editReply({ embeds: [embed] });
+		return setTimeout(() => msg.delete(), 30000);
 	},
 };

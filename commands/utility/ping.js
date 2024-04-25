@@ -6,8 +6,9 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with pong!'),
 	async execute(interaction) {
-		await interaction.reply(
+		const msg = await interaction.reply(
 			`Pong! Websocket: ${interaction.client.ws.ping}ms`
 		);
+		return setTimeout(() => msg.delete(), 15000);
 	},
 };

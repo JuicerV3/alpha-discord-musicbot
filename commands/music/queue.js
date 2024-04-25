@@ -19,7 +19,8 @@ module.exports = {
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
 				});
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		const tracks = queue.tracks.map(
@@ -69,6 +70,7 @@ module.exports = {
 			.setFooter({
 				text: `${queue.durationFormatted} • Loop status: ${loopStatus}`,
 			});
-		return interaction.editReply({ embeds: [embed] });
+		const msg = await interaction.editReply({ embeds: [embed] });
+		return setTimeout(() => msg.delete(), 30000);
 	},
 };

@@ -18,9 +18,10 @@ module.exports = {
 		const command = interaction.client.commands.get(commandName);
 
 		if (!command) {
-			return interaction.reply(
+			const msg = await interaction.reply(
 				`There is no command with name \`${commandName}\`!`
 			);
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		delete require.cache[
@@ -31,14 +32,16 @@ module.exports = {
 			interaction.client.commands.delete(command.data.name);
 			const newCommand = require(`../${command.category}/${command.data.name}.js`);
 			interaction.client.commands.set(newCommand.data.name, newCommand);
-			await interaction.reply(
+			const msg = await interaction.reply(
 				`Command \`${newCommand.data.name}\` was reloaded!`
 			);
+			return setTimeout(() => msg.delete(), 10000);
 		} catch (error) {
 			console.error(error);
-			await interaction.reply(
+			const msg = await interaction.reply(
 				`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``
 			);
+			return setTimeout(() => msg.delete(), 10000);
 		}
 	},
 };

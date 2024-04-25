@@ -129,7 +129,9 @@ module.exports = {
 						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
 				});
 			}
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			setTimeout(() => msg.delete(), 30000); //timeout delete 30s
+			return;
 		} catch (e) {
 			console.error(e);
 
@@ -139,7 +141,8 @@ module.exports = {
 				.setDescription(
 					`Something went wrong while trying to play \`${query}\``
 				);
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 	},
 };
