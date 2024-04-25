@@ -1,4 +1,10 @@
-const { EmbedBuilder } = require('discord.js');
+const {
+	EmbedBuilder,
+	time,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+} = require('discord.js');
 const { player } = require('..');
 
 // player events
@@ -53,8 +59,37 @@ player.events.on('playerStart', async (queue, track) => {
 		.setFooter({
 			text: `Requested by ${track.requestedBy.username} • αlpha@_juicerv3`,
 			iconURL: track.requestedBy.avatarURL(),
-		});
-	const msg = await queue.metadata.channel.send({ embeds: [embed] });
+		})
+		.setTimestamp();
+
+	// const controlPanel = [
+	// 	(buttonRow = new ActionRowBuilder().addComponents(
+	// 		new ButtonBuilder()
+	// 			.setCustomId('shuffle')
+	// 			.setStyle(ButtonStyle.Primary)
+	// 			.setLabel('🔀'),
+	// 		new ButtonBuilder()
+	// 			.setCustomId('back')
+	// 			.setStyle(ButtonStyle.Primary)
+	// 			.setLabel('⏮️'),
+	// 		new ButtonBuilder()
+	// 			.setCustomId('playercontrol')
+	// 			.setStyle(ButtonStyle.Primary)
+	// 			.setLabel('⏯️'),
+	// 		new ButtonBuilder()
+	// 			.setCustomId('skip')
+	// 			.setStyle(ButtonStyle.Primary)
+	// 			.setLabel('⏭️'),
+	// 		new ButtonBuilder()
+	// 			.setCustomId('loop')
+	// 			.setStyle(ButtonStyle.Primary)
+	// 			.setLabel('🔂')
+	// 	)),
+	// ];
+	const msg = await queue.metadata.channel.send({
+		embeds: [embed],
+		// components: controlPanel,
+	});
 	setTimeout(() => msg.delete(), track.durationMS);
 	console.log(
 		`\u001b[1;34m[Player]: Started playing ${track.title} - (${track.source})\u001b[0m`
