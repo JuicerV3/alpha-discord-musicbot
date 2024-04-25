@@ -60,6 +60,26 @@ player.events.on('playerStart', async (queue, track) => {
 			iconURL: track.requestedBy.avatarURL(),
 		})
 		.setTimestamp();
+	const tracks = queue.tracks.map(
+		(track) => `[${track.title}](${track.url})`
+	);
+	const tracksRequestBy = queue.tracks.map(
+		(track) => `${track.requestedBy.username}`
+	);
+	const tracksSource = queue.tracks.map(
+		(track) =>
+			`${track.source.charAt(0).toUpperCase() + track.source.slice(1)}`
+	);
+	const tracksDuration = queue.tracks.map((track) => `${track.duration}`);
+	if (!tracks.length < 1) {
+		embed.addFields({
+			name: 'Nextup',
+			value: `${tracks.slice(0, 1)}\n └─${tracksRequestBy.slice(
+				0,
+				1
+			)} • ${tracksSource} • ${tracksDuration}`,
+		});
+	}
 
 	// const controlPanel = [
 	// 	(buttonRow = new ActionRowBuilder().addComponents(
