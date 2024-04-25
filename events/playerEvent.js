@@ -11,19 +11,19 @@ player.events.on('playerStart', async (queue, track) => {
 	let loopStatus;
 	switch (queue.repeatMode) {
 		case 0:
-			loopStatus = 'Repeat Off';
+			loopStatus = 'Off';
 			break;
 		case 1:
-			loopStatus = 'Repeat Current Track';
+			loopStatus = 'Current Track';
 			break;
 		case 2:
-			loopStatus = 'Repeat Queue';
+			loopStatus = 'Queue';
 			break;
 		case 3:
 			loopStatus = 'Autoplay Next Track';
 			break;
 		default:
-			loopStatus = 'Repeat Off';
+			loopStatus = 'Off';
 	}
 	const embed = new EmbedBuilder()
 		.setColor(0x96ffff)
@@ -33,7 +33,7 @@ player.events.on('playerStart', async (queue, track) => {
 			}`,
 			iconURL: queue.player.client.user.avatarURL(),
 		})
-		.setTitle('Started playing')
+		.setTitle('Now playing')
 		.setThumbnail(track.thumbnail)
 		.setDescription(`**[${track.title}](${track.url})**\n${track.author}`)
 		.setFields(
