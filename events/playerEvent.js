@@ -1,6 +1,5 @@
 const {
 	EmbedBuilder,
-	time,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
