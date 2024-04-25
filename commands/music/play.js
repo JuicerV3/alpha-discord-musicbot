@@ -23,7 +23,8 @@ module.exports = {
 				.setColor(0xfffa6b)
 				.setTitle('Cannot join a voice channel')
 				.setDescription('You are not in a voice channel.');
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		// except for spotify podcast because discord-player throw error
@@ -32,7 +33,8 @@ module.exports = {
 				.setColor(0xfffa6b)
 				.setTitle('Cannot play Spotify podcast')
 				.setDescription('Spotify podcast not supported.');
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		const result = await player.search(query, {
@@ -44,7 +46,8 @@ module.exports = {
 				.setColor(0xfffa6b)
 				.setTitle('No search results found.')
 				.setDescription(`No search results found for \`${query}\``);
-			return interaction.editReply({ embeds: [embed] });
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
 		}
 
 		try {
