@@ -24,14 +24,17 @@ module.exports = {
 		}
 
 		const tracks = queue.tracks.map(
-			(track, index) => `${++index}. ${track.title} - ${track.duration}`
+			(track, index) =>
+				`${++index}. ${track.title}\n └─${
+					track.requestedBy.username
+				} • ${track.duration}`
 		);
-		let trackQueue;
 
+		let trackQueue;
 		if (tracks.length < 1) {
 			trackQueue = 'There is no more track.';
 		} else if (tracks.length > 9) {
-			tracksQueue = tracks.slice(0, 20).join('\n');
+			tracksQueue = tracks.slice(0, 10).join('\n');
 			tracksQueue += `\nand ${tracks.length - 10} other songs`;
 		} else {
 			trackQueue = tracks.join('\n');
@@ -52,7 +55,7 @@ module.exports = {
 				loopStatus = 'Autoplay Next Track';
 				break;
 			default:
-				modeName = 'Repeat Off';
+				loopStatus = 'Repeat Off';
 		}
 
 		const embed = new EmbedBuilder()
