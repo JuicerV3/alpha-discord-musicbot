@@ -28,7 +28,7 @@ player.events.on('playerStart', async (queue, track) => {
 	function nFormatter(num, digits) {
 		const lookup = [
 			{ value: 1, symbol: '' },
-			{ value: 1e3, symbol: 'k' },
+			{ value: 1e3, symbol: 'K' },
 			{ value: 1e6, symbol: 'M' },
 			{ value: 1e9, symbol: 'G' },
 			{ value: 1e12, symbol: 'T' },
@@ -85,24 +85,30 @@ player.events.on('playerStart', async (queue, track) => {
 		})
 		.setTimestamp();
 
-	const tracks = queue.tracks.map(
-		(track) => `[${track.title}](${track.url})`
-	);
-	const tracksRequestBy = queue.tracks.map(
-		(track) => `${track.requestedBy.username}`
-	);
-	const tracksSource = queue.tracks.map(
-		(track) =>
-			`${track.source.charAt(0).toUpperCase() + track.source.slice(1)}`
-	);
-	const tracksDuration = queue.tracks.map((track) => `${track.duration}`);
-	if (!tracks.length < 1) {
+	const nextupTrack = {
+		title: queue.tracks.map((track) => `[${track.title}](${track.url})`),
+		requestBy: queue.tracks.map((track) => `${track.requestedBy.username}`),
+		source: queue.tracks.map(
+			(track) =>
+				`${
+					track.source.charAt(0).toUpperCase() + track.source.slice(1)
+				}`
+		),
+		duration: queue.tracks.map((track) => `${track.duration}`),
+	};
+	if (!nextupTrack.title.length < 1) {
 		embed.addFields({
 			name: 'Nextup',
-			value: `${tracks.slice(0, 1)}\n └─ ${tracksRequestBy.slice(
+			value: `${nextupTrack.title.slice(
 				0,
 				1
-			)} • ${tracksSource} • ${tracksDuration}`,
+			)}\n └─ ${nextupTrack.requestBy.slice(
+				0,
+				1
+			)} • ${nextupTrack.source.slice(
+				0,
+				1
+			)} • ${nextupTrack.duration.slice(0, 1)}`,
 		});
 	}
 
