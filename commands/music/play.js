@@ -54,7 +54,7 @@ module.exports = {
 			const { track, searchResult } = await player.play(channel, result, {
 				nodeOptions: {
 					metadata: interaction,
-					volume: 100,
+					volume: 50,
 					noEmitInsert: true,
 					leaveOnStop: false,
 					leaveOnEmpty: true,
@@ -112,6 +112,11 @@ module.exports = {
 						value: `${sourceName}`,
 						inline: true,
 					}
+					// {
+					// 	name: '{Position on queue}',
+					// 	value: `${track.queue.}`,
+					// 	inline: true,
+					// }
 				)
 				.setFooter({
 					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3`,
