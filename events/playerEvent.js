@@ -60,6 +60,7 @@ player.events.on('playerStart', async (queue, track) => {
 			iconURL: track.requestedBy.avatarURL(),
 		})
 		.setTimestamp();
+
 	const tracks = queue.tracks.map(
 		(track) => `[${track.title}](${track.url})`
 	);
@@ -74,7 +75,7 @@ player.events.on('playerStart', async (queue, track) => {
 	if (!tracks.length < 1) {
 		embed.addFields({
 			name: 'Nextup',
-			value: `${tracks.slice(0, 1)}\n └─${tracksRequestBy.slice(
+			value: `${tracks.slice(0, 1)}\n └─ ${tracksRequestBy.slice(
 				0,
 				1
 			)} • ${tracksSource} • ${tracksDuration}`,
