@@ -1,5 +1,6 @@
 const {
 	EmbedBuilder,
+	ActivityType,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
@@ -141,6 +142,15 @@ player.events.on('playerStart', async (queue, track) => {
 		// components: controlPanel,
 	});
 	setTimeout(() => msg.delete(), track.durationMS);
+	player.client.user.setPresence({
+		activities: [
+			{
+				name: `${track.title}`,
+				type: ActivityType.Streaming,
+				url: 'https://twitch.tv/music',
+			},
+		],
+	});
 	console.log(
 		`\u001b[1;34m[Player]: Started playing ${track.title} - (${track.source})\u001b[0m`
 	);
