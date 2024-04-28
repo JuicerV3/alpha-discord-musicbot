@@ -156,7 +156,7 @@ player.events.on('playerStart', async (queue, track) => {
 	);
 });
 
-player.events.on('disconnect', (queue) => {
+player.events.on('disconnect', async (queue) => {
 	const embed = new EmbedBuilder()
 		.setColor(0x96ffff)
 		.setAuthor({
@@ -165,7 +165,34 @@ player.events.on('disconnect', (queue) => {
 		})
 		.setTitle('Disconnected')
 		.setDescription('Disconnected from voice channel.');
-	queue.metadata.channel.send({ embeds: [embed] });
+	const msg = await queue.metadata.channel.send({ embeds: [embed] });
+	return setTimeout(() => msg.delete(), 10000);
+});
+
+// player.events.on('playerFinish', () => {
+// 	player.client.user.setPresence({
+// 		activities: [
+// 			{
+// 				name: 'Music',
+// 				type: ActivityType.Streaming,
+// 				url: 'https://twitch.tv/music',
+// 			},
+// 		],
+// 		status: 'online',
+// 	});
+// });
+
+player.events.on('emptyQueue', () => {
+	player.client.user.setPresence({
+		activities: [
+			{
+				name: 'Music',
+				type: ActivityType.Streaming,
+				url: 'https://twitch.tv/music',
+			},
+		],
+		status: 'online',
+	});
 });
 
 player.events.on('playerError', (queue, error) => {
