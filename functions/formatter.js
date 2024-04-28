@@ -1,0 +1,86 @@
+function numberFormatter(num, digits) {
+	const lookup = [
+		{ value: 1, symbol: '' },
+		{ value: 1e3, symbol: 'K' },
+		{ value: 1e6, symbol: 'M' },
+		{ value: 1e9, symbol: 'G' },
+		{ value: 1e12, symbol: 'T' },
+		{ value: 1e15, symbol: 'P' },
+		{ value: 1e18, symbol: 'E' },
+	];
+	const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
+	const item = lookup.findLast((item) => num >= item.value);
+	return item
+		? (num / item.value)
+				.toFixed(digits)
+				.replace(regexp, '')
+				.concat(item.symbol)
+		: '0';
+}
+
+function sourceFormatter(source, views) {
+	if (views === undefined && source === 'youtube')
+		return `${source.charAt(0).toUpperCase() + source.slice(1)}`;
+	switch (source) {
+		case 'apple_music':
+			trackSource =
+				source.charAt(0).toUpperCase() +
+				source.slice(1, 5) +
+				' ' +
+				source.charAt(6).toUpperCase() +
+				source.slice(7);
+			break;
+		case 'soundcloud':
+			trackSource =
+				source.charAt(0).toUpperCase() +
+				source.slice(1, 5) +
+				source.charAt(5).toUpperCase() +
+				source.slice(6);
+			break;
+		case 'youtube':
+			trackSource = `${
+				source.charAt(0).toUpperCase() + source.slice(1)
+			} • ${numberFormatter(views, 1)} views`;
+			break;
+		default:
+			trackSource = source.charAt(0).toUpperCase() + source.slice(1);
+	}
+	return trackSource;
+}
+
+function iconURLFormatter(source, avatarURL) {
+	switch (source) {
+		case 'spotify':
+			return 'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
+		case 'apple_music':
+			return 'https://cdn.discordapp.com/attachments/985226448686174228/1234083611158773760/Apple-Music-logo.png';
+		case 'soundcloud':
+			return 'https://cdn.discordapp.com/attachments/985226448686174228/1234085458963730502/soundcloud-logo.jpg';
+		case 'youtube':
+			return 'https://cdn.discordapp.com/attachments/985226448686174228/1231996659597312031/youtube-logo.png';
+		default:
+			return avatarURL;
+	}
+}
+
+function loopStatusFormatter(repeatMode) {
+	switch (repeatMode) {
+		case 0:
+			return 'Off';
+		case 1:
+			return 'Loop Current Track';
+		case 2:
+			return 'Loop Queue';
+		case 3:
+			return 'Autoplay Next Track';
+		default:
+			return 'Off';
+	}
+}
+
+module.exports = {
+	numberFormatter,
+	sourceFormatter,
+	iconURLFormatter,
+	loopStatusFormatter,
+};
