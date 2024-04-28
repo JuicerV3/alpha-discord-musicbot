@@ -6,58 +6,19 @@ const {
 	ButtonStyle,
 } = require('discord.js');
 const { player } = require('..');
+const {
+	sourceFormatter,
+	loopStatusFormatter,
+} = require('../functions/formatter');
 
 // player events
 player.events.on('playerStart', async (queue, track) => {
-	let loopStatus;
-	switch (queue.repeatMode) {
-		case 0:
-			loopStatus = 'Off';
-			break;
-		case 1:
-			loopStatus = 'Current Track';
-			break;
-		case 2:
-			loopStatus = 'Queue';
-			break;
-		case 3:
-			loopStatus = 'Autoplay Next Track';
-			break;
-		default:
-			loopStatus = 'Off';
-	}
-	function nFormatter(num, digits) {
-		const lookup = [
-			{ value: 1, symbol: '' },
-			{ value: 1e3, symbol: 'K' },
-			{ value: 1e6, symbol: 'M' },
-			{ value: 1e9, symbol: 'G' },
-			{ value: 1e12, symbol: 'T' },
-			{ value: 1e15, symbol: 'P' },
-			{ value: 1e18, symbol: 'E' },
-		];
-		const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
-		const item = lookup.findLast((item) => num >= item.value);
-		return item
-			? (num / item.value)
-					.toFixed(digits)
-					.replace(regexp, '')
-					.concat(item.symbol)
-			: '0';
-	}
-	let trackSource =
-		track.source.charAt(0).toUpperCase() + track.source.slice(1);
-	if (track.source === 'youtube') {
-		trackSource = `${
-			track.source.charAt(0).toUpperCase() + track.source.slice(1)
-		} • ${nFormatter(track.views, 1)} views`;
-	}
 	const embed = new EmbedBuilder()
 		.setColor(0x96ffff)
 		.setAuthor({
-			name: `${queue.player.client.user.username} • ${
-				track.source.charAt(0).toUpperCase() + track.source.slice(1)
-			}`,
+			name: `${queue.player.client.user.username} • ${sourceFormatter(
+				track.source
+			)}`,
 			iconURL: queue.player.client.user.avatarURL(),
 		})
 		.setTitle('Now playing')
@@ -71,12 +32,12 @@ player.events.on('playerStart', async (queue, track) => {
 			},
 			{
 				name: 'Source',
-				value: trackSource,
+				value: sourceFormatter(track.source, track.views),
 				inline: true,
 			},
 			{
 				name: 'Loop status',
-				value: loopStatus,
+				value: loopStatusFormatter(queue.repeatMode),
 				inline: true,
 			}
 		)
@@ -89,12 +50,7 @@ player.events.on('playerStart', async (queue, track) => {
 	const nextupTrack = {
 		title: queue.tracks.map((track) => `[${track.title}](${track.url})`),
 		requestBy: queue.tracks.map((track) => `${track.requestedBy.username}`),
-		source: queue.tracks.map(
-			(track) =>
-				`${
-					track.source.charAt(0).toUpperCase() + track.source.slice(1)
-				}`
-		),
+		source: queue.tracks.map((track) => `${sourceFormatter(track.source)}`),
 		duration: queue.tracks.map((track) => `${track.duration}`),
 	};
 	if (!nextupTrack.title.length < 1) {
@@ -137,11 +93,11 @@ player.events.on('playerStart', async (queue, track) => {
 	// 			.setLabel('🔂')
 	// 	)),
 	// ];
-	const msg = await queue.metadata.channel.send({
+	const nowplayingEmbed = await queue.metadata.channel.send({
 		embeds: [embed],
 		// components: controlPanel,
 	});
-	setTimeout(() => msg.delete(), track.durationMS);
+	setTimeout(() => nowplayingEmbed.delete(), track.durationMS);
 	player.client.user.setPresence({
 		activities: [
 			{
