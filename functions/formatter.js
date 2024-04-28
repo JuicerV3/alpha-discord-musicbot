@@ -23,29 +23,27 @@ function sourceFormatter(source, views) {
 		return `${source.charAt(0).toUpperCase() + source.slice(1)}`;
 	switch (source) {
 		case 'apple_music':
-			trackSource =
+			return (
 				source.charAt(0).toUpperCase() +
 				source.slice(1, 5) +
 				' ' +
 				source.charAt(6).toUpperCase() +
-				source.slice(7);
-			break;
+				source.slice(7)
+			);
 		case 'soundcloud':
-			trackSource =
+			return (
 				source.charAt(0).toUpperCase() +
 				source.slice(1, 5) +
 				source.charAt(5).toUpperCase() +
-				source.slice(6);
-			break;
+				source.slice(6)
+			);
 		case 'youtube':
-			trackSource = `${
+			return `${
 				source.charAt(0).toUpperCase() + source.slice(1)
 			} • ${numberFormatter(views, 1)} views`;
-			break;
 		default:
-			trackSource = source.charAt(0).toUpperCase() + source.slice(1);
+			return source.charAt(0).toUpperCase() + source.slice(1);
 	}
-	return trackSource;
 }
 
 function iconURLFormatter(source, avatarURL) {
