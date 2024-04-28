@@ -1,5 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { useMainPlayer } = require('discord-player');
+const {
+	sourceFormatter,
+	iconURLFormatter,
+} = require('../../functions/formatter');
 
 module.exports = {
 	category: 'music',
@@ -16,28 +20,8 @@ module.exports = {
 		const player = useMainPlayer();
 		const channel = interaction.member.voice.channel;
 		const query = interaction.options.getString('query');
-
-		function nFormatter(num, digits) {
-			const lookup = [
-				{ value: 1, symbol: '' },
-				{ value: 1e3, symbol: 'K' },
-				{ value: 1e6, symbol: 'M' },
-				{ value: 1e9, symbol: 'G' },
-				{ value: 1e12, symbol: 'T' },
-				{ value: 1e15, symbol: 'P' },
-				{ value: 1e18, symbol: 'E' },
-			];
-			const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
-			const item = lookup.findLast((item) => num >= item.value);
-			return item
-				? (num / item.value)
-						.toFixed(digits)
-						.replace(regexp, '')
-						.concat(item.symbol)
-				: '0';
-		}
-
 		await interaction.deferReply();
+
 		if (!channel) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
@@ -91,45 +75,12 @@ module.exports = {
 				},
 			});
 
-			let trackSource =
-				track.source.charAt(0).toUpperCase() + track.source.slice(1);
-			let sourceIconURL = interaction.client.user.displayAvatarURL();
-			switch (track.source) {
-				case 'spotify':
-					sourceIconURL =
-						'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
-					break;
-				case 'apple_music':
-					sourceIconURL =
-						'https://cdn.discordapp.com/attachments/985226448686174228/1234083611158773760/Apple-Music-logo.png';
-					trackSource =
-						track.source.charAt(0).toUpperCase() +
-						track.source.slice(1, 5) +
-						' ' +
-						track.source.charAt(6).toUpperCase() +
-						track.source.slice(7);
-					break;
-				case 'soundcloud':
-					sourceIconURL =
-						'https://cdn.discordapp.com/attachments/985226448686174228/1234085458963730502/soundcloud-logo.jpg';
-					trackSource =
-						track.source.charAt(0).toUpperCase() +
-						track.source.slice(1, 5) +
-						track.source.charAt(5).toUpperCase() +
-						track.source.slice(6);
-					break;
-				case 'youtube':
-					sourceIconURL =
-						'https://cdn.discordapp.com/attachments/985226448686174228/1231996659597312031/youtube-logo.png';
-					trackSource = `${
-						track.source.charAt(0).toUpperCase() +
-						track.source.slice(1)
-					} • ${nFormatter(track.views, 1)} views`;
-					break;
-			}
-
 			console.log(
-				`\u001b[1;34m[Player]: Added ${track.title} - (${trackSource})\n   └─[Query]: ${query}\u001b[0m`
+				`\u001b[1;34m[Player]: Added ${
+					track.title
+				} - (${sourceFormatter(
+					track.source
+				)})\n   └─[Query]: ${query}\u001b[0m`
 			);
 
 			const embed = new EmbedBuilder()
@@ -138,7 +89,10 @@ module.exports = {
 					name: `${
 						searchResult.hasPlaylist() ? 'Playlist' : 'Track'
 					} queued`,
-					iconURL: sourceIconURL,
+					iconURL: iconURLFormatter(
+						track.source,
+						interaction.user.avatarURL()
+					),
 				})
 				.setTitle(track.title)
 				.setURL(track.url)
@@ -152,7 +106,7 @@ module.exports = {
 					},
 					{
 						name: 'Source',
-						value: `${trackSource}`,
+						value: sourceFormatter(track.source, track.views),
 						inline: true,
 					}
 				)
