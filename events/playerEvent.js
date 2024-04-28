@@ -169,18 +169,7 @@ player.events.on('disconnect', async (queue) => {
 	return setTimeout(() => msg.delete(), 10000);
 });
 
-// player.events.on('playerFinish', () => {
-// 	player.client.user.setPresence({
-// 		activities: [
-// 			{
-// 				name: 'Music',
-// 				type: ActivityType.Streaming,
-// 				url: 'https://twitch.tv/music',
-// 			},
-// 		],
-// 		status: 'online',
-// 	});
-// });
+player.events.on('playerFinish', async (queue, track) => {});
 
 player.events.on('emptyQueue', () => {
 	player.client.user.setPresence({
