@@ -16,8 +16,28 @@ module.exports = {
 		const player = useMainPlayer();
 		const channel = interaction.member.voice.channel;
 		const query = interaction.options.getString('query');
-		await interaction.deferReply();
 
+		function nFormatter(num, digits) {
+			const lookup = [
+				{ value: 1, symbol: '' },
+				{ value: 1e3, symbol: 'K' },
+				{ value: 1e6, symbol: 'M' },
+				{ value: 1e9, symbol: 'G' },
+				{ value: 1e12, symbol: 'T' },
+				{ value: 1e15, symbol: 'P' },
+				{ value: 1e18, symbol: 'E' },
+			];
+			const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
+			const item = lookup.findLast((item) => num >= item.value);
+			return item
+				? (num / item.value)
+						.toFixed(digits)
+						.replace(regexp, '')
+						.concat(item.symbol)
+				: '0';
+		}
+
+		await interaction.deferReply();
 		if (!channel) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
@@ -70,42 +90,42 @@ module.exports = {
 					deaf: true,
 				},
 			});
-			function nFormatter(num, digits) {
-				const lookup = [
-					{ value: 1, symbol: '' },
-					{ value: 1e3, symbol: 'K' },
-					{ value: 1e6, symbol: 'M' },
-					{ value: 1e9, symbol: 'G' },
-					{ value: 1e12, symbol: 'T' },
-					{ value: 1e15, symbol: 'P' },
-					{ value: 1e18, symbol: 'E' },
-				];
-				const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
-				const item = lookup.findLast((item) => num >= item.value);
-				return item
-					? (num / item.value)
-							.toFixed(digits)
-							.replace(regexp, '')
-							.concat(item.symbol)
-					: '0';
-			}
+
 			let trackSource =
 				track.source.charAt(0).toUpperCase() + track.source.slice(1);
-			if (track.source === 'youtube') {
-				trackSource = `${
-					track.source.charAt(0).toUpperCase() + track.source.slice(1)
-				} • ${nFormatter(track.views, 1)} views`;
-			}
-			let sourceIconURL;
-
-			if (track.source === 'spotify') {
-				sourceIconURL =
-					'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
-			} else if (track.source === 'youtube') {
-				sourceIconURL =
-					'https://cdn.discordapp.com/attachments/985226448686174228/1231996659597312031/youtube-logo.png';
-			} else {
-				sourceIconURL = interaction.client.user.displayAvatarURL();
+			let sourceIconURL = interaction.client.user.displayAvatarURL();
+			switch (track.source) {
+				case 'spotify':
+					sourceIconURL =
+						'https://cdn.discordapp.com/attachments/985226448686174228/1231982720494735411/Spotify_logo.png';
+					break;
+				case 'apple_music':
+					sourceIconURL =
+						'https://cdn.discordapp.com/attachments/985226448686174228/1234083611158773760/Apple-Music-logo.png';
+					trackSource =
+						track.source.charAt(0).toUpperCase() +
+						track.source.slice(1, 5) +
+						' ' +
+						track.source.charAt(6).toUpperCase() +
+						track.source.slice(7);
+					break;
+				case 'soundcloud':
+					sourceIconURL =
+						'https://cdn.discordapp.com/attachments/985226448686174228/1234085458963730502/soundcloud-logo.jpg';
+					trackSource =
+						track.source.charAt(0).toUpperCase() +
+						track.source.slice(1, 5) +
+						track.source.charAt(5).toUpperCase() +
+						track.source.slice(6);
+					break;
+				case 'youtube':
+					sourceIconURL =
+						'https://cdn.discordapp.com/attachments/985226448686174228/1231996659597312031/youtube-logo.png';
+					trackSource = `${
+						track.source.charAt(0).toUpperCase() +
+						track.source.slice(1)
+					} • ${nFormatter(track.views, 1)} views`;
+					break;
 			}
 
 			console.log(
@@ -123,7 +143,7 @@ module.exports = {
 				.setTitle(track.title)
 				.setURL(track.url)
 				.setThumbnail(track.thumbnail)
-				.setDescription(`**${track.author}**`)
+				.setDescription(`${track.author}`)
 				.setFields(
 					{
 						name: 'Track length',
@@ -147,8 +167,10 @@ module.exports = {
 					inline: true,
 				});
 			}
-			const msg = await interaction.editReply({ embeds: [embed] });
-			setTimeout(() => msg.delete(), 30000); //timeout delete 30s
+			const nowplayingEmbed = await interaction.editReply({
+				embeds: [embed],
+			});
+			setTimeout(() => nowplayingEmbed.delete(), 30000); //timeout delete 30s
 			return;
 		} catch (e) {
 			console.error(e);
