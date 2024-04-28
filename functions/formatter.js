@@ -66,9 +66,9 @@ function loopStatusFormatter(repeatMode) {
 		case 0:
 			return 'Off';
 		case 1:
-			return 'Loop Current Track';
+			return 'Current Track';
 		case 2:
-			return 'Loop Queue';
+			return 'Queue';
 		case 3:
 			return 'Autoplay Next Track';
 		default:
