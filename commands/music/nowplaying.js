@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { usePlayer, useTimeline } = require('discord-player');
+const { sourceFormatter } = require('../../functions/formatter');
 
 module.exports = {
 	category: 'music',
@@ -29,17 +30,25 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Now playing')
-			.setDescription(`[${track.title}](${track.url})`)
-			.setFields({ name: 'Progress', value: node.createProgressBar() })
+			.setDescription(
+				`**[${track.title}](${track.url})**\n${track.author}`
+			)
+			.setFields({
+				name: 'Progress',
+				value: `${node.createProgressBar()} • ${
+					timestamp.progress
+				}%\n${sourceFormatter(track.source, track.views)}`,
+			})
 			.setThumbnail(track.thumbnail)
 			.setFooter({
-				text: `Requested by ${track.requestedBy?.tag} • ${timestamp.progress}%`,
+				text: `Requested by ${track.requestedBy?.tag} • αlpha@_juicerv3`,
 				iconURL: track.requestedBy?.displayAvatarURL(),
 			})
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),
-			});
+			})
+			.setTimestamp();
 		const msg = await interaction.editReply({ embeds: [embed] });
 		return setTimeout(() => msg.delete(), 30000);
 	},
