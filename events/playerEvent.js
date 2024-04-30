@@ -11,10 +11,10 @@ player.events.on('playerStart', async (queue, track) => {
 	const embed = new EmbedBuilder()
 		.setColor(0x96ffff)
 		.setAuthor({
-			name: `${queue.player.client.user.username} • ${sourceFormatter(
+			name: `${track.player.client.user.username} • ${sourceFormatter(
 				track.source
 			)}`,
-			iconURL: queue.player.client.user.avatarURL(),
+			iconURL: track.player.client.user.avatarURL(),
 		})
 		.setTitle('Now playing')
 		.setThumbnail(track.thumbnail)
