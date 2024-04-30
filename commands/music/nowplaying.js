@@ -16,11 +16,7 @@ module.exports = {
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No track is currently playing')
-				.setAuthor({
-					name: interaction.user.username,
-					iconURL: interaction.user.avatarURL(),
-				});
+				.setTitle('No track is currently playing');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
@@ -45,8 +41,8 @@ module.exports = {
 				iconURL: track.requestedBy?.displayAvatarURL(),
 			})
 			.setAuthor({
-				name: interaction.user.username,
-				iconURL: interaction.user.avatarURL(),
+				name: interaction.client.user.username,
+				iconURL: interaction.client.user.avatarURL(),
 			})
 			.setTimestamp();
 		const msg = await interaction.editReply({ embeds: [embed] });
