@@ -1,10 +1,4 @@
-const {
-	EmbedBuilder,
-	ActivityType,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-} = require('discord.js');
+const { EmbedBuilder, ActivityType } = require('discord.js');
 const { player } = require('..');
 const {
 	sourceFormatter,
@@ -13,6 +7,7 @@ const {
 
 // player events
 player.events.on('playerStart', async (queue, track) => {
+	// Nowplaying embed
 	const embed = new EmbedBuilder()
 		.setColor(0x96ffff)
 		.setAuthor({
@@ -47,6 +42,7 @@ player.events.on('playerStart', async (queue, track) => {
 		})
 		.setTimestamp();
 
+	// Nextup track
 	const nextupTrack = {
 		title: queue.tracks.map((track) => `[${track.title}](${track.url})`),
 		requestBy: queue.tracks.map((track) => `${track.requestedBy.username}`),
@@ -69,35 +65,15 @@ player.events.on('playerStart', async (queue, track) => {
 		});
 	}
 
-	// const controlPanel = [
-	// 	(buttonRow = new ActionRowBuilder().addComponents(
-	// 		new ButtonBuilder()
-	// 			.setCustomId('shuffle')
-	// 			.setStyle(ButtonStyle.Primary)
-	// 			.setLabel('🔀'),
-	// 		new ButtonBuilder()
-	// 			.setCustomId('back')
-	// 			.setStyle(ButtonStyle.Primary)
-	// 			.setLabel('⏮️'),
-	// 		new ButtonBuilder()
-	// 			.setCustomId('playercontrol')
-	// 			.setStyle(ButtonStyle.Primary)
-	// 			.setLabel('⏯️'),
-	// 		new ButtonBuilder()
-	// 			.setCustomId('skip')
-	// 			.setStyle(ButtonStyle.Primary)
-	// 			.setLabel('⏭️'),
-	// 		new ButtonBuilder()
-	// 			.setCustomId('loop')
-	// 			.setStyle(ButtonStyle.Primary)
-	// 			.setLabel('🔂')
-	// 	)),
-	// ];
+	// send embed with timed delete after song end
+	// it is based on song duration so if skip or stop etc
+	// it will still shown
 	const nowplayingEmbed = await queue.metadata.channel.send({
 		embeds: [embed],
-		// components: controlPanel,
 	});
 	setTimeout(() => nowplayingEmbed.delete(), track.durationMS);
+
+	// set presence to track name
 	player.client.user.setPresence({
 		activities: [
 			{
@@ -119,13 +95,10 @@ player.events.on('disconnect', async (queue) => {
 			name: queue.player.client.user.username,
 			iconURL: queue.player.client.user.avatarURL(),
 		})
-		.setTitle('Disconnected')
-		.setDescription('Disconnected from voice channel.');
+		.setTitle('Disconnected from voice channel');
 	const msg = await queue.metadata.channel.send({ embeds: [embed] });
 	return setTimeout(() => msg.delete(), 10000);
 });
-
-player.events.on('playerFinish', async (queue, track) => {});
 
 player.events.on('emptyQueue', () => {
 	player.client.user.setPresence({
