@@ -5,7 +5,7 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('resume')
-		.setDescription('Resume the current song'),
+		.setDescription('Resume the player'),
 	async execute(interaction) {
 		await interaction.deferReply();
 		const timeline = useTimeline(interaction.guildId);
@@ -14,8 +14,7 @@ module.exports = {
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No song currently playing.')
-				.setDescription("Bot isn't playing anysong")
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -28,8 +27,7 @@ module.exports = {
 		if (!timeline.paused) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Song is already playing')
-				.setDescription('The song is already resumed')
+				.setTitle('The track is already resumed')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -42,8 +40,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle('Resumed')
-			.setDescription('Resumed the song')
+			.setTitle('Track Resumed')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

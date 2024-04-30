@@ -10,11 +10,11 @@ module.exports = {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
 
+		// check if player is playing
 		if (!queue) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -27,8 +27,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle('Disconnected')
-			.setDescription('Disconnected from the voice channel')
+			.setTitle('Disconnected from the voice channel')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

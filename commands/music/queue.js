@@ -9,7 +9,7 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('queue')
-		.setDescription('list queue')
+		.setDescription('queue option')
 		.addSubcommand((subcommand) =>
 			subcommand.setName('list').setDescription('list current queue')
 		)
@@ -19,7 +19,7 @@ module.exports = {
 		.addSubcommand((subcommand) =>
 			subcommand
 				.setName('remove')
-				.setDescription('Remove song from queue')
+				.setDescription('Remove track from the queue')
 				.addStringOption((option) =>
 					option
 						.setName('index')
@@ -31,11 +31,11 @@ module.exports = {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
 
+		// Check if player is playing
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -56,7 +56,7 @@ module.exports = {
 
 			let trackQueue;
 			if (tracks.length < 1) {
-				trackQueue = 'There is no more track.';
+				trackQueue = 'Queue is empty';
 			} else if (tracks.length > 9) {
 				tracksQueue = tracks.slice(0, 10).join('\n');
 				tracksQueue += `\nand ${tracks.length - 10} other songs`;
@@ -99,8 +99,7 @@ module.exports = {
 			if (tracks.length < 1) {
 				const embed = new EmbedBuilder()
 					.setColor(0xfffa6b)
-					.setTitle('Cannot remove song')
-					.setDescription('There is no song in the current queue');
+					.setTitle('There is no song in the current queue');
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 10000);
 			}
@@ -135,11 +134,20 @@ module.exports = {
 				(track, index) => `${++index}. ${track.title}`
 			);
 
+			let trackQueue;
+			if (tracks.length < 1) {
+				trackQueue = 'Queue is empty';
+			} else if (tracks.length > 9) {
+				tracksQueue = tracks.slice(0, 10).join('\n');
+				tracksQueue += `\nand ${tracks.length - 10} other songs`;
+			} else {
+				trackQueue = tracks.join('\n');
+			}
+
 			if (tracks.length < 1) {
 				const embed = new EmbedBuilder()
 					.setColor(0xfffa6b)
-					.setTitle('Cannot remove song')
-					.setDescription('There is no song in the current queue');
+					.setTitle('There is no track in the current queue');
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 10000);
 			}
@@ -147,13 +155,13 @@ module.exports = {
 			if (tracks[songIndex - 1] === undefined) {
 				const embed = new EmbedBuilder()
 					.setColor(0xfffa6b)
-					.setTitle('Cannot remove song')
+					.setTitle('Cannot remove track')
 					.setDescription(
-						`Song number **${songIndex}** does not exist.\nMake sure to choose correct song index`
+						`Track number **${songIndex}** does not exist.\nMake sure to choose correct song index`
 					)
 					.setFields({
 						name: 'Tracklist',
-						value: `${tracks.join('\n')}`,
+						value: `${trackQueue}`,
 					});
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 20000);

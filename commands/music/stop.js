@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { useQueue, QueueRepeatMode } = require('discord-player');
+const { nowplayingEmbed } = require('../../events/playerEvent');
 
 module.exports = {
 	category: 'music',
@@ -13,8 +14,7 @@ module.exports = {
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -29,7 +29,6 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Player stopped')
-			.setDescription('I have successfuly stop the player.')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

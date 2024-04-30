@@ -13,30 +13,29 @@ module.exports = {
 		.addStringOption((option) =>
 			option
 				.setName('query')
-				.setDescription('search query')
+				.setDescription('search term')
 				.setRequired(true)
 		),
 	async execute(interaction) {
+		await interaction.deferReply();
 		const player = useMainPlayer();
 		const channel = interaction.member.voice.channel;
 		const query = interaction.options.getString('query');
-		await interaction.deferReply();
 
+		// Chack if user is in voice channel
 		if (!channel) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Cannot join a voice channel')
-				.setDescription('You are not in a voice channel.');
+				.setTitle('You are not in a voice channel');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
 
-		// except for spotify podcast because discord-player throw error
+		// Reject spotify podcast because discord-player cannot find result
 		if (query.includes('open.spotify.com/episode')) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Cannot play Spotify podcast')
-				.setDescription('Spotify podcast not supported.');
+				.setTitle('Spotify podcast not supported');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
@@ -45,10 +44,11 @@ module.exports = {
 			requestedBy: interaction.user,
 		});
 
+		// Return embed if search result not found
 		if (!result.hasTracks()) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No search results found.')
+				.setTitle(`No search results found for \`${query}\``)
 				.setDescription(`No search results found for \`${query}\``);
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
@@ -62,9 +62,9 @@ module.exports = {
 					noEmitInsert: true,
 					leaveOnStop: false,
 					leaveOnEmpty: true,
-					leaveOnEmptyCooldown: 600000,
+					leaveOnEmptyCooldown: 6000000,
 					leaveOnEnd: true,
-					leaveOnEndCooldown: 600000,
+					leaveOnEndCooldown: 6000000,
 					pauseOnEmpty: true,
 					preferBridgedMetadata: true,
 					disableBiquad: true,
@@ -83,6 +83,7 @@ module.exports = {
 				)})\n   └─[Query]: ${query}\u001b[0m`
 			);
 
+			// Started playing embed
 			const embed = new EmbedBuilder()
 				.setColor(0x96ffff)
 				.setAuthor({
@@ -114,6 +115,7 @@ module.exports = {
 					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3`,
 					iconURL: interaction.user.avatarURL(),
 				});
+			// if there is a queue Display song position
 			if (track.queue) {
 				let songPos = track.queue.node.getTrackPosition(track) + 1;
 				if (songPos === 1) songPos = '1 • Next';
@@ -123,6 +125,7 @@ module.exports = {
 					inline: true,
 				});
 			}
+			// if query is playlist Display playlist name
 			if (searchResult.playlist != undefined) {
 				embed.addFields({
 					name: 'Playlist',
@@ -133,11 +136,10 @@ module.exports = {
 			const nowplayingEmbed = await interaction.editReply({
 				embeds: [embed],
 			});
-			setTimeout(() => nowplayingEmbed.delete(), 30000); //timeout delete 30s
+			setTimeout(() => nowplayingEmbed.delete(), 30000);
 			return;
 		} catch (e) {
 			console.error(e);
-
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
 				.setTitle('Something went wrong')

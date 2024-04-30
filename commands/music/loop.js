@@ -5,11 +5,11 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('loop')
-		.setDescription('Change loop mode')
+		.setDescription('Change player loop mode')
 		.addStringOption((option) =>
 			option
 				.setName('mode')
-				.setDescription('set loop mode')
+				.setDescription('select loop mode')
 				.setRequired(true)
 				.addChoices(
 					{ name: 'Autoplay Next Track', value: 'autoplay' },
@@ -22,11 +22,11 @@ module.exports = {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
 
+		// Check if player is playing
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -35,8 +35,8 @@ module.exports = {
 			return setTimeout(() => msg.delete(), 10000);
 		}
 
+		// convert useroption to string and command
 		const mode = interaction.options.getString('mode');
-
 		let loopStatus;
 		if (!mode != null) {
 			switch (mode) {
@@ -66,12 +66,10 @@ module.exports = {
 			`\u001b[1;34m[Player]: Changed loop mode to ${loopStatus}\u001b[0m`
 		);
 
+		// Return embed
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle('Loop mode changed')
-			.setDescription(
-				`I have successfuly changed loop mode to \`${loopStatus}\`.`
-			)
+			.setTitle(`Changed loop mode to \`${loopStatus}\``)
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

@@ -5,17 +5,16 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('pause')
-		.setDescription('Pause the current song'),
+		.setDescription('Pause the player'),
 	async execute(interaction) {
 		await interaction.deferReply();
 		const timeline = useTimeline(interaction.guildId);
 
-		// Check if song is currently playing
+		// Check if player is playing
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No song currently playing')
-				.setDescription("Bot isn't playing anysong")
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -28,8 +27,7 @@ module.exports = {
 		if (timeline.paused) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Error')
-				.setDescription('The track is already paused')
+				.setTitle('The track is already paused')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -42,8 +40,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle('Paused')
-			.setDescription('The track is already paused')
+			.setTitle('Track paused')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

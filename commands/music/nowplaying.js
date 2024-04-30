@@ -9,14 +9,14 @@ module.exports = {
 		.setDescription('View the currently playing song'),
 	async execute(interaction) {
 		await interaction.deferReply();
-		const node = usePlayer(interaction.guildId);
+		const player = usePlayer(interaction.guildId);
 		const timeline = useTimeline(interaction.guildId);
 
+		// check if player is playing
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -35,9 +35,9 @@ module.exports = {
 			)
 			.setFields({
 				name: 'Progress',
-				value: `${node.createProgressBar()} • ${
+				value: `${player.createProgressBar()}\n${
 					timestamp.progress
-				}%\n${sourceFormatter(track.source, track.views)}`,
+				}% • ${sourceFormatter(track.source, track.views)}`,
 			})
 			.setThumbnail(track.thumbnail)
 			.setFooter({

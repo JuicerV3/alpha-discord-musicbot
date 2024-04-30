@@ -10,11 +10,11 @@ module.exports = {
 		await interaction.deferReply();
 		const history = useHistory(interaction.guildId);
 
+		// check if player is playing and if has history
 		if (!history) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -22,12 +22,10 @@ module.exports = {
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
-
 		if (history.isEmpty()) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No previous track')
-				.setDescription('There is no previous track to go back to')
+				.setTitle('There is no previous track')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -38,10 +36,10 @@ module.exports = {
 
 		await history.back();
 
+		// Return embed
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Track skipped')
-			.setDescription('I have successfuly skipped the track.')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),

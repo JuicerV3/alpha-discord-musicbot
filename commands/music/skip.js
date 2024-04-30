@@ -5,7 +5,7 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('skip')
-		.setDescription('Skip the song'),
+		.setDescription('Skip the track'),
 	async execute(interaction) {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
@@ -13,8 +13,7 @@ module.exports = {
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('Not playing')
-				.setDescription('im not playing anything right now')
+				.setTitle('No track is currently playing')
 				.setAuthor({
 					name: interaction.user.username,
 					iconURL: interaction.user.avatarURL(),
@@ -48,7 +47,6 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
 			.setTitle('Track skipped')
-			.setDescription('I have successfuly skipped the track.')
 			.setAuthor({
 				name: interaction.user.username,
 				iconURL: interaction.user.avatarURL(),
