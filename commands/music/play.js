@@ -114,11 +114,20 @@ module.exports = {
 					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3`,
 					iconURL: interaction.user.avatarURL(),
 				});
+			if (track.queue) {
+				let songPos = track.queue.node.getTrackPosition(track) + 1;
+				if (songPos === 1) songPos = '1 • Next';
+				embed.addFields({
+					name: 'Position on queue',
+					value: `${songPos}`,
+					inline: true,
+				});
+			}
 			if (searchResult.playlist != undefined) {
 				embed.addFields({
 					name: 'Playlist',
 					value: searchResult.playlist.title,
-					inline: true,
+					inline: false,
 				});
 			}
 			const nowplayingEmbed = await interaction.editReply({
