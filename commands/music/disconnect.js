@@ -14,11 +14,7 @@ module.exports = {
 		if (!queue) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No track is currently playing')
-				.setAuthor({
-					name: interaction.user.username,
-					iconURL: interaction.user.avatarURL(),
-				});
+				.setTitle('No track is currently playing');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
@@ -27,11 +23,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle('Disconnected from the voice channel')
-			.setAuthor({
-				name: interaction.user.username,
-				iconURL: interaction.user.avatarURL(),
-			});
+			.setTitle('Disconnected from the voice channel');
 		const msg = await interaction.editReply({ embeds: [embed] });
 		return setTimeout(() => msg.delete(), 15000);
 	},

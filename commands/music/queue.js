@@ -35,11 +35,7 @@ module.exports = {
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No track is currently playing')
-				.setAuthor({
-					name: interaction.user.username,
-					iconURL: interaction.user.avatarURL(),
-				});
+				.setTitle('No track is currently playing');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
@@ -109,10 +105,6 @@ module.exports = {
 
 				const embed = new EmbedBuilder()
 					.setColor(0x3ec489)
-					.setAuthor({
-						name: interaction.user.username,
-						iconURL: interaction.user.avatarURL(),
-					})
 					.setTitle('Queue cleared');
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 15000);
@@ -172,10 +164,6 @@ module.exports = {
 
 				const embed = new EmbedBuilder()
 					.setColor(0x96ffff)
-					.setAuthor({
-						name: interaction.user.username,
-						iconURL: interaction.user.avatarURL(),
-					})
 					.setTitle('Song removed')
 					.setDescription(
 						`Removed ${tracks[songIndex - 1]} from the queue`

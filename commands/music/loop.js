@@ -26,11 +26,7 @@ module.exports = {
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
-				.setTitle('No track is currently playing')
-				.setAuthor({
-					name: interaction.user.username,
-					iconURL: interaction.user.avatarURL(),
-				});
+				.setTitle('No track is currently playing');
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
@@ -69,11 +65,7 @@ module.exports = {
 		// Return embed
 		const embed = new EmbedBuilder()
 			.setColor(0x96ffff)
-			.setTitle(`Changed loop mode to \`${loopStatus}\``)
-			.setAuthor({
-				name: interaction.user.username,
-				iconURL: interaction.user.avatarURL(),
-			});
+			.setTitle(`Changed loop mode to \`${loopStatus}\``);
 		const msg = await interaction.editReply({ embeds: [embed] });
 		return setTimeout(() => msg.delete(), 15000);
 	},
