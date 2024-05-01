@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { useQueue, QueueRepeatMode } = require('discord-player');
-const { nowplayingEmbed } = require('../../events/playerEvent');
 
 module.exports = {
 	category: 'music',
