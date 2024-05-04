@@ -174,7 +174,7 @@ module.exports = {
 				console.error(e);
 
 				const embed = new EmbedBuilder()
-					.setColor(0xfffa6b)
+					.setColor(0xf54242)
 					.setTitle('Something went wrong')
 					.setDescription(
 						`Something went wrong while trying to remove the song \`${query}\``
