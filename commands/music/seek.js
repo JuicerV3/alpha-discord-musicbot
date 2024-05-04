@@ -21,20 +21,17 @@ module.exports = {
 		let milliseconds;
 		if (time.split(':').length === 2) {
 			/* For MM:SS */
-			console.log('found MM:SS');
 			milliseconds =
 				Number(time.split(':')[0]) * 60000 +
 				Number(time.split(':')[1]) * 1000;
 		} else if (time.split(':').length === 3) {
 			/* For HH:MM:SS */
-			console.log('found HH:MM:SS');
 			milliseconds =
 				Number(time.split(':')[0]) * 3600000 +
 				Number(time.split(':')[1]) * 60000 +
 				Number(time.split(':')[2]) * 1000;
 		} else if (time.split(':').length === 4) {
 			/* For DD:HH:MM:SS */
-			console.log('found DD:HH:MM:SS');
 			milliseconds =
 				Number(time.split(':')[0]) * 86400000 +
 				Number(time.split(':')[1]) * 3600000 +
@@ -43,7 +40,6 @@ module.exports = {
 		} else if (time >= 0 && time <= 60) {
 			milliseconds = Number(time) * 1000;
 		} else {
-			console.log('incorrect format');
 			const embed = new EmbedBuilder()
 				.setColor(0xfffa6b)
 				.setTitle('Incorrect format')
@@ -51,8 +47,6 @@ module.exports = {
 			const msg = await interaction.editReply({ embeds: [embed] });
 			return setTimeout(() => msg.delete(), 10000);
 		}
-
-		console.log(`${time} = ${milliseconds}ms`);
 
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()
