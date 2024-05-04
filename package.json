@@ -16,7 +16,7 @@
 		"discord.js": "^14.14.1",
 		"ffmpeg-static": "^5.2.0",
 		"mediaplex": "^0.0.9",
-		"yt-stream": "^1.4.14"
+		"ytdl-core": "^4.11.5"
 	},
 	"devDependencies": {
 		"eslint": "^9.0.0"
