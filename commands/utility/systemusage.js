@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
 const os = require('os');
 const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 module.exports = {
 	category: 'utility',
