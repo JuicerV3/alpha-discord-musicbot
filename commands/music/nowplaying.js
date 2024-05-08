@@ -6,7 +6,7 @@ module.exports = {
 	category: 'music',
 	data: new SlashCommandBuilder()
 		.setName('nowplaying')
-		.setDescription('View the currently playing song'),
+		.setDescription('View the currently playing track'),
 	async execute(interaction) {
 		await interaction.deferReply();
 		const player = usePlayer(interaction.guildId);

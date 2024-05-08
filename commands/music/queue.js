@@ -34,7 +34,7 @@ module.exports = {
 				.addStringOption((option) =>
 					option
 						.setName('index')
-						.setDescription('Song index number')
+						.setDescription('Track index number')
 						.setRequired(true)
 				)
 		),
@@ -66,7 +66,7 @@ module.exports = {
 				trackQueue = 'Queue is empty';
 			} else if (tracks.length > 9) {
 				tracksQueue = tracks.slice(0, 10).join('\n');
-				tracksQueue += `\nand ${tracks.length - 10} other songs`;
+				tracksQueue += `\nand ${tracks.length - 10} other tracks`;
 			} else {
 				trackQueue = tracks.join('\n');
 			}
@@ -106,7 +106,7 @@ module.exports = {
 			if (tracks.length < 1) {
 				const embed = new EmbedBuilder()
 					.setColor(0xfffa6b)
-					.setTitle('There is no song in the current queue');
+					.setTitle('There is no track in the current queue');
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 10000);
 			}
@@ -142,7 +142,7 @@ module.exports = {
 				trackQueue = 'Queue is empty';
 			} else if (tracks.length > 9) {
 				tracksQueue = tracks.slice(0, 10).join('\n');
-				tracksQueue += `\nand ${tracks.length - 10} other songs`;
+				tracksQueue += `\nand ${tracks.length - 10} other tracks`;
 			} else {
 				trackQueue = tracks.join('\n');
 			}
@@ -160,7 +160,7 @@ module.exports = {
 					.setColor(0xfffa6b)
 					.setTitle('Cannot jump the queue')
 					.setDescription(
-						`Track number **${songIndex}** does not exist.\nMake sure to choose correct song index`
+						`Track number **${songIndex}** does not exist.\nMake sure to choose correct track index`
 					)
 					.setFields({
 						name: 'Tracklist',
@@ -185,7 +185,7 @@ module.exports = {
 					.setColor(0xf54242)
 					.setTitle('Something went wrong')
 					.setDescription(
-						`Something went wrong while trying to jump to the song \`${query}\``
+						`Something went wrong while trying to jump the queue \`${query}\``
 					);
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 10000);
@@ -201,7 +201,7 @@ module.exports = {
 				trackQueue = 'Queue is empty';
 			} else if (tracks.length > 9) {
 				tracksQueue = tracks.slice(0, 10).join('\n');
-				tracksQueue += `\nand ${tracks.length - 10} other songs`;
+				tracksQueue += `\nand ${tracks.length - 10} other tracks`;
 			} else {
 				trackQueue = tracks.join('\n');
 			}
@@ -247,7 +247,7 @@ module.exports = {
 					.setColor(0xf54242)
 					.setTitle('Something went wrong')
 					.setDescription(
-						`Something went wrong while trying to remove the song \`${query}\``
+						`Something went wrong while trying to remove the track \`${query}\``
 					);
 				const msg = await interaction.editReply({ embeds: [embed] });
 				return setTimeout(() => msg.delete(), 10000);
