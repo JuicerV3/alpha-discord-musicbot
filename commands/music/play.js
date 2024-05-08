@@ -115,13 +115,13 @@ module.exports = {
 					text: `Requested by ${interaction.user.username} • αlpha@_juicerv3`,
 					iconURL: interaction.user.avatarURL(),
 				});
-			// if there is a queue Display song position
+			// if there is a queue Display track position
 			if (track.queue) {
-				let songPos = track.queue.node.getTrackPosition(track) + 1;
-				if (songPos === 1) songPos = '1 • Next';
+				let trackPos = track.queue.node.getTrackPosition(track) + 1;
+				if (trackPos === 1) trackPos = '1 • Next';
 				embed.addFields({
 					name: 'Position on queue',
-					value: `${songPos}`,
+					value: `${trackPos}`,
 					inline: true,
 				});
 			}
