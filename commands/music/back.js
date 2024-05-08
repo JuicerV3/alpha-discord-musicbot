@@ -10,6 +10,19 @@ module.exports = {
 		await interaction.deferReply();
 		const history = useHistory(interaction.guildId);
 
+		// Check if user is in the same voice channel
+		if (
+			interaction.guild.members.me.voice.channelId &&
+			interaction.member.voice.channelId !==
+				interaction.guild.members.me.voice.channelId
+		) {
+			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
+				.setTitle('You are not in the same voice channel');
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
+		}
+
 		// check if player is playing and if has history
 		if (!history) {
 			const embed = new EmbedBuilder()

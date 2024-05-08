@@ -22,6 +22,19 @@ module.exports = {
 		await interaction.deferReply();
 		const queue = useQueue(interaction.guildId);
 
+		// Check if user is in the same voice channel
+		if (
+			interaction.guild.members.me.voice.channelId &&
+			interaction.member.voice.channelId !==
+				interaction.guild.members.me.voice.channelId
+		) {
+			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
+				.setTitle('You are not in the same voice channel');
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
+		}
+
 		// Check if player is playing
 		if (!queue || !queue.currentTrack) {
 			const embed = new EmbedBuilder()

@@ -10,6 +10,19 @@ module.exports = {
 		await interaction.deferReply();
 		const timeline = useTimeline(interaction.guildId);
 
+		// Check if user is in the same voice channel
+		if (
+			interaction.guild.members.me.voice.channelId &&
+			interaction.member.voice.channelId !==
+				interaction.guild.members.me.voice.channelId
+		) {
+			const embed = new EmbedBuilder()
+				.setColor(0xfffa6b)
+				.setTitle('You are not in the same voice channel');
+			const msg = await interaction.editReply({ embeds: [embed] });
+			return setTimeout(() => msg.delete(), 10000);
+		}
+
 		// Check if song is currently playing
 		if (!timeline?.track) {
 			const embed = new EmbedBuilder()
