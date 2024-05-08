@@ -103,6 +103,19 @@ module.exports = {
 				(track, index) => `${++index}. ${track.title}`
 			);
 
+			// Check if user is in the same voice channel
+			if (
+				interaction.guild.members.me.voice.channelId &&
+				interaction.member.voice.channelId !==
+					interaction.guild.members.me.voice.channelId
+			) {
+				const embed = new EmbedBuilder()
+					.setColor(0xfffa6b)
+					.setTitle('You are not in the same voice channel');
+				const msg = await interaction.editReply({ embeds: [embed] });
+				return setTimeout(() => msg.delete(), 10000);
+			}
+
 			if (tracks.length < 1) {
 				const embed = new EmbedBuilder()
 					.setColor(0xfffa6b)
@@ -145,6 +158,19 @@ module.exports = {
 				tracksQueue += `\nand ${tracks.length - 10} other tracks`;
 			} else {
 				trackQueue = tracks.join('\n');
+			}
+
+			// Check if user is in the same voice channel
+			if (
+				interaction.guild.members.me.voice.channelId &&
+				interaction.member.voice.channelId !==
+					interaction.guild.members.me.voice.channelId
+			) {
+				const embed = new EmbedBuilder()
+					.setColor(0xfffa6b)
+					.setTitle('You are not in the same voice channel');
+				const msg = await interaction.editReply({ embeds: [embed] });
+				return setTimeout(() => msg.delete(), 10000);
 			}
 
 			if (tracks.length < 1) {
@@ -204,6 +230,19 @@ module.exports = {
 				tracksQueue += `\nand ${tracks.length - 10} other tracks`;
 			} else {
 				trackQueue = tracks.join('\n');
+			}
+
+			// Check if user is in the same voice channel
+			if (
+				interaction.guild.members.me.voice.channelId &&
+				interaction.member.voice.channelId !==
+					interaction.guild.members.me.voice.channelId
+			) {
+				const embed = new EmbedBuilder()
+					.setColor(0xfffa6b)
+					.setTitle('You are not in the same voice channel');
+				const msg = await interaction.editReply({ embeds: [embed] });
+				return setTimeout(() => msg.delete(), 10000);
 			}
 
 			if (tracks.length < 1) {
