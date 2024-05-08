@@ -3,8 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
 	category: 'utility',
 	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with pong!'),
+		.setName('help')
+		.setDescription('list avaliable commands'),
 	async execute(interaction) {
 		await interaction.deferReply();
 		const embed = new EmbedBuilder()
