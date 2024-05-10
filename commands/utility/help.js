@@ -14,17 +14,22 @@ module.exports = {
 				iconURL: interaction.client.user.avatarURL(),
 			})
 			.setTitle('List of commands')
-			.addFields({
-				name: 'Music commands',
-				value: `\`/play\` Play a song\n\`/pause\` Pause current song\n\`/resume\` Resume current song\n\`/back\` Back to previous song\n\`/skip\` Skip to next song\n\`/seek\` Seek current song\n\`/loop\` Set player loop mode\n\`/nowplaying\` Show nowplaying song\n\`/queue list\` list current queue\n\`/queue jump\` jump to song on the queue\n\`/queue remove\` Remove song from the queue\n\`/queue clear\` Clear all song from the queue\n\`/radio\` Play DASHRADIO Stream\n\`/stop\` Stop the player\n\`/disconnect\` Disconnect bot from the voice channel`,
-				inline: true,
-			})
+			.addFields(
+				{
+					name: 'Music commands',
+					value: '`/play` Play a song\n`/pause` Pause current song\n`/resume` Resume current song\n`/back` Back to previous song\n`/skip` Skip to next song\n`/seek` Seek current song\n`/loop` Set player loop mode\n`/nowplaying` Show nowplaying song\n`/queue list` list current queue\n`/queue jump` jump to song on the queue\n`/queue remove` Remove song from the queue\n`/queue clear` Clear all song from the queue\n`/radio` Play DASHRADIO Stream\n`/stop` Stop the player\n`/disconnect` Disconnect bot from the voice channel',
+				},
+				{
+					name: 'Utility commands',
+					value: '`/help` Get a list of commands\n`/ping` Check a bot ping\n`/systemusage` Show bot system usage\n`/reload` Reload a command',
+				}
+			)
 			.setFooter({
 				text: `Code with pain by @_juicerv3`,
 				iconURL: interaction.client.user.avatarURL(),
 			})
 			.setTimestamp();
 		const msg = await interaction.editReply({ embeds: [embed] });
-		return setTimeout(() => msg.delete(), 30000);
+		return setTimeout(() => msg.delete(), 60000);
 	},
 };
