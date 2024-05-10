@@ -149,7 +149,7 @@ module.exports = {
 			const nowplayingEmbed = await interaction.editReply({
 				embeds: [embed],
 			});
-			setTimeout(() => nowplayingEmbed.delete(), 30000);
+			setTimeout(() => nowplayingEmbed.delete(), 60000);
 			return;
 		} catch (e) {
 			console.error(e);
