@@ -16,7 +16,7 @@ player.events.on('playerStart', async (queue, track) => {
 			)}`,
 			iconURL: track.player.client.user.avatarURL(),
 		})
-		.setTitle('Now playing')
+		.setTitle('Started playing')
 		.setThumbnail(track.thumbnail)
 		.setDescription(`**[${track.title}](${track.url})**\n${track.author}`)
 		.setFields(
@@ -65,13 +65,7 @@ player.events.on('playerStart', async (queue, track) => {
 		});
 	}
 
-	// send embed with timed delete after song end
-	// it is based on song duration so if skip or stop etc
-	// it will still shown
-	const nowplayingEmbed = await queue.metadata.channel.send({
-		embeds: [embed],
-	});
-	setTimeout(() => nowplayingEmbed.delete(), track.durationMS);
+	queue.metadata.channel.send({ embeds: [embed] });
 
 	// set presence to track name
 	player.client.user.setPresence({
