@@ -21,6 +21,18 @@ module.exports = {
 					{ name: 'Rock - Monsters of Rock', value: 'DASH14' },
 					{ name: 'R&B - R&B X', value: 'DASH47' }
 				)
+		)
+		.addStringOption((option) =>
+			option
+				.setName('stationid')
+				.setDescription('Play custom DASH radio station')
+				.setRequired(true)
+		)
+		.addStringOption((option) =>
+			option
+				.setName('custom')
+				.setDescription('Play custom internet radio stream')
+				.setRequired(true)
 		),
 	async execute(interaction) {
 		await interaction.deferReply();
